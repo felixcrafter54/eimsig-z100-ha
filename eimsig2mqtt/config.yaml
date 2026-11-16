@@ -1,0 +1,45 @@
+name: EiMSIG Alarmanlage
+version: "0.1.0"
+slug: eimsig2mqtt
+description: >-
+  EiMSIG EM-Z100 Funk-Alarmzentrale mitlesen: Fenster/Türen (zu/gekippt/offen), Zentrale (grün/gelb/rot),
+  scharf/unscharf und Handsender – per RTL-SDR und MQTT. Nur lesend.
+url: https://github.com/felixcrafter54/eimsig-z100-ha
+arch:
+  - aarch64
+  - amd64
+  - armv7
+init: false
+startup: application
+boot: auto
+services:
+  - mqtt:want
+usb: true
+options:
+  quelle: rtl_tcp
+  rtl_tcp_host: ""
+  rtl_tcp_port: 1234
+  usb_geraet: 0
+  gain: 40.2
+  geraete_automatisch_anlegen: true
+  sensoren: []
+  handsender: []
+schema:
+  quelle: list(rtl_tcp|usb)
+  rtl_tcp_host: str?
+  rtl_tcp_port: port
+  usb_geraet: int(0,9)
+  gain: float(0,50)
+  geraete_automatisch_anlegen: bool
+  zentrale_seriennr: int?
+  sensoren:
+    - seriennr: int
+      name: str
+      typ: list(auto|kipp|zwei_stellungen|tuer)
+  handsender:
+    - seriennr: int
+      name: str
+  mqtt_host: str?
+  mqtt_port: port?
+  mqtt_user: str?
+  mqtt_password: password?

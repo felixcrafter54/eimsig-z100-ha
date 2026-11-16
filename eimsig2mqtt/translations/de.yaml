@@ -1,0 +1,43 @@
+configuration:
+  quelle:
+    name: Quelle
+    description: >-
+      rtl_tcp = RTL-SDR-Stick an einem anderen Rechner im Netz (rtl_tcp-Server).
+      usb = RTL-SDR-Stick direkt an diesem Home Assistant (experimentell).
+  rtl_tcp_host:
+    name: rtl_tcp Adresse
+    description: IP-Adresse oder Hostname des rtl_tcp-Servers (nur bei Quelle rtl_tcp).
+  rtl_tcp_port:
+    name: rtl_tcp Port
+    description: Standard 1234. rtl_tcp nimmt nur einen Client gleichzeitig an.
+  usb_geraet:
+    name: USB-Gerät
+    description: Nummer des RTL-SDR-Sticks, wenn mehrere angeschlossen sind (meist 0, nur bei Quelle usb).
+  gain:
+    name: Verstärkung (dB)
+    description: Empfangsverstärkung des RTL-SDR. 40,2 dB ist ein guter Startwert.
+  geraete_automatisch_anlegen:
+    name: Geräte automatisch anlegen
+    description: >-
+      Fenstersensoren und Handsender automatisch anlegen, sobald die Zentrale zweimal auf sie reagiert hat
+      (Fenster einmal öffnen und schließen, Drücker zweimal drücken). Geräte der Nachbarn werden so nie angelegt.
+  zentrale_seriennr:
+    name: Seriennummer der Zentrale (optional)
+    description: Leer lassen – die Zentrale wird automatisch erkannt. Nur nötig, wenn mehrere EiMSIG-Zentralen in Funkreichweite sind.
+  sensoren:
+    name: Fenster- und Türsensoren (optional)
+    description: >-
+      Seriennummer, Name und Typ. Typ: kipp = Kippfenster, zwei_stellungen = Fenster ohne Kippen, tuer = Tür,
+      auto = automatisch. Nur nötig, um Namen und Typ fest vorzugeben – sonst automatisch.
+  handsender:
+    name: Handsender (optional)
+    description: Seriennummer und Name der Drücker. Nur nötig, um Namen fest vorzugeben – sonst automatisch.
+  mqtt_host:
+    name: MQTT-Server (optional)
+    description: Leer lassen, um den Broker des Mosquitto-Add-ons automatisch zu verwenden.
+  mqtt_port:
+    name: MQTT-Port (optional)
+  mqtt_user:
+    name: MQTT-Benutzer (optional)
+  mqtt_password:
+    name: MQTT-Passwort (optional)

@@ -1,0 +1,43 @@
+configuration:
+  quelle:
+    name: Source
+    description: >-
+      rtl_tcp = RTL-SDR stick on another machine in your network (rtl_tcp server).
+      usb = RTL-SDR stick plugged into this Home Assistant (experimental).
+  rtl_tcp_host:
+    name: rtl_tcp host
+    description: IP address or hostname of the rtl_tcp server (source rtl_tcp only).
+  rtl_tcp_port:
+    name: rtl_tcp port
+    description: Default 1234. rtl_tcp accepts only one client at a time.
+  usb_geraet:
+    name: USB device
+    description: Index of the RTL-SDR stick if several are connected (usually 0, source usb only).
+  gain:
+    name: Gain (dB)
+    description: RTL-SDR receiver gain. 40.2 dB is a good starting point.
+  geraete_automatisch_anlegen:
+    name: Create devices automatically
+    description: >-
+      Create window sensors and remotes automatically once the alarm panel has reacted to them twice
+      (open and close a window once, press a remote twice). Your neighbours' devices are never added.
+  zentrale_seriennr:
+    name: Panel serial number (optional)
+    description: Leave empty – the panel is detected automatically. Only needed with several EiMSIG panels in range.
+  sensoren:
+    name: Window and door sensors (optional)
+    description: >-
+      Serial number, name and type (kipp = tilt window, zwei_stellungen = window without tilt, tuer = door,
+      auto = automatic). Only needed to fix names and types – otherwise automatic.
+  handsender:
+    name: Remotes (optional)
+    description: Serial number and name of the remotes. Only needed to fix names – otherwise automatic.
+  mqtt_host:
+    name: MQTT server (optional)
+    description: Leave empty to use the Mosquitto add-on broker automatically.
+  mqtt_port:
+    name: MQTT port (optional)
+  mqtt_user:
+    name: MQTT user (optional)
+  mqtt_password:
+    name: MQTT password (optional)
