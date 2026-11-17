@@ -1,5 +1,5 @@
 name: EiMSIG Alarmanlage
-version: "0.1.0"
+version: "0.1.1"
 slug: eimsig2mqtt
 description: >-
   EiMSIG EM-Z100 Funk-Alarmzentrale mitlesen: Fenster/Türen (zu/gekippt/offen), Zentrale (grün/gelb/rot),

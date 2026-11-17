@@ -163,13 +163,16 @@ class Bridge:
                 return self._unbekannt(f"andere Zentrale {sn}", sn)
             self._zentrale(t["pos"], ts, pegel)
 
-    def _setze_fenster(self, sn, code, z, pegel, quelle):
+    def _setze_fenster(self, sn, code, z, pegel, quelle, leise=False):
         alt = self.fenster.get(sn, {}).get("zustand")
         self.fenster[sn] = {"zustand": z, "code": code, "pegel": pegel, "zeit": jetzt(), "quelle": quelle}
         self._pub_fenster(sn)
         if alt != z:
             self._speichere_zust()
-            log(f"{self.sensoren[sn]['name']:<18} {z:<8} Code {code:3d}  {pegel} dB  ({quelle})")
+            if not leise:
+                c = f"Code {code:3d}" if code is not None else "Code   –"
+                p = f"{pegel} dB" if pegel is not None else ""
+                log(f"{self.sensoren[sn]['name']:<18} {z:<8} {c}  {p}  ({quelle})")
 
     def _zentrale(self, code, ts, pegel):
         farbe = ep.ZENTRALE_STATUS.get(code)
@@ -196,11 +199,19 @@ class Bridge:
                 if sn not in self.fenster or self.fenster[sn].get("code") == scode:
                     self._setze_fenster(sn, scode, self.zustand(sn, scode), spegel, "funk")
         # grün heißt: laut Zentrale ist alles zu (gleicht verpasste Meldungen aus)
+        # – auch für Fenster, die seit dem Start noch nie gesendet haben (sonst „unbekannt“ bis zur ersten Meldung)
         if farbe == "grün":
-            for sn, f in list(self.fenster.items()):
-                if f.get("zustand") != "ZU":
+            neu = []
+            for sn in self.sensoren:
+                f = self.fenster.get(sn)
+                if f is None:
+                    neu.append(self.sensoren[sn]["name"])
+                    self._setze_fenster(sn, None, "ZU", None, "zentrale", leise=True)
+                elif f.get("zustand") != "ZU":
                     log(f"{self.sensoren[sn]['name']}: laut Zentrale zu (war {f.get('zustand')}, Meldung verpasst?)")
                     self._setze_fenster(sn, f.get("code"), "ZU", f.get("pegel"), "zentrale")
+            if neu:
+                log(f"Zentrale grün → {len(neu)} Fenster/Türen ohne bisherige Meldung auf „zu“ gesetzt")
         self._speichere_zust()
 
     def _kandidat(self, art, sn):
